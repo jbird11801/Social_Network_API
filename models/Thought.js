@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 
+const { Reaction } = require('Reaction');
+
 const thoughtSchema = new Schema(
   {
     thoughtText: {
@@ -13,9 +15,38 @@ const thoughtSchema = new Schema(
       default: Date.now(),
     },
 
+    username : { 
+      
+      type : String ,
+
+      required : true 
+
+    },
+
+    reactions : [Reaction]
+
   }
+
+  ,
+
+  {
+
+    toJSON: {
+
+      virtuals: true
+
+    },
+
+  }
+
 );
 
-const Course = model('course', courseSchema);
+userSchema.virtual('reactionCount').get(function () {
 
-module.exports = Course;
+  return this.reactions.length;
+
+});
+
+const thought = model('course', courseSchema);
+
+module.exports = thought;
